@@ -1,4 +1,11 @@
-# Odata::Model
+# OData::Model
+
+[![Build Status](https://travis-ci.org/ruby-odata/odata-model.svg?branch=master)](https://travis-ci.org/ruby-odata/odata-model)
+[![Code Climate](https://codeclimate.com/github/ruby-odata/odata-model.png)](https://codeclimate.com/github/ruby-odata/odata-model)
+[![Coverage](https://codeclimate.com/github/ruby-odata/odata-model/coverage.png)](https://codeclimate.com/github/ruby-odata/odata-model)
+[![Gem Version](https://badge.fury.io/rb/odata-model.svg)](http://badge.fury.io/rb/odata-model)
+[![Dependency Status](https://gemnasium.com/ruby-odata/odata-model.svg)](https://gemnasium.com/ruby-odata/odata-model)
+[![Documentation](http://inch-ci.org/github/ruby-odata/odata-model.png?branch=master)](http://rubydoc.info/github/ruby-odata/odata-model/master/frames)
 
 TODO: Write a gem description
 
