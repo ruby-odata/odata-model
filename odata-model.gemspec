@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = OData::Model::VERSION
   spec.authors       = ['James Thompson']
   spec.email         = %w{james@buypd.com}
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = 'An ActiveModel mapping layer for the OData gem'
+  spec.description   = 'A mapping layer for the OData gem that integrates with ActiveModel'
   spec.homepage      = 'https://github.com/ruby-odata/odata-model'
   spec.license       = 'MIT'
 
