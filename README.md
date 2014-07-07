@@ -7,7 +7,8 @@
 [![Dependency Status](https://gemnasium.com/ruby-odata/odata-model.svg)](https://gemnasium.com/ruby-odata/odata-model)
 [![Documentation](http://inch-ci.org/github/ruby-odata/odata-model.png?branch=master)](http://rubydoc.info/github/ruby-odata/odata-model/master/frames)
 
-TODO: Write a gem description
+The `OData::Model` gem provides a mapping layer for the [`OData`](https://github.com/ruby-odata/odata)
+gem that is meant to work in tandem with [`ActiveModel`](https://github.com/rails/rails/tree/master/activemodel).
 
 ## Installation
 
