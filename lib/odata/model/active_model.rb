@@ -2,6 +2,9 @@ require 'active_model'
 
 module OData
   module Model
+    # The OData::Model::ActiveModel module encapsulates all the functionality
+    # specifically needed for OData::Model to work with Rails via the
+    # ActiveModel conventions.
     module ActiveModel
       extend ActiveSupport::Concern
 
