@@ -1,9 +1,10 @@
-require 'odata'
-require 'odata/model/version'
-
 require 'active_model'
 require 'active_support/core_ext'
 require 'active_support/concern'
+
+require 'odata'
+require 'odata/model/version'
+require 'odata/model/configuration'
 
 # OData is the parent namespace for the OData::Model project.
 module OData
@@ -17,6 +18,8 @@ module OData
     include ActiveModel::Validations
     include ActiveModel::Conversion
 
+    include OData::Model::Configuration
+
     included do
       # ...
     end
@@ -28,14 +31,6 @@ module OData
       self.class.class_variable_get(:@@attributes)
     end
 
-    
-    def odata_entity
-      @odata_entity ||= self.class.odata_service[odata_entity_set_name].new_entity
-    end
-
-    def odata_entity_set_name
-      self.class.odata_entity_set_name
-    end
 
     # Integrates ActiveModel's error handling capabilities
     # @return [ActiveModel::Errors]
@@ -58,54 +53,6 @@ module OData
     # Methods integrated at the class level when OData::Model is included into
     # a given class.
     module ClassMethods
-      # Define the service to use for the current OData::Model. This method
-      # will cause the service to be looked up in the OData::ServiceRegistry
-      # by the supplied key, so it can accept either the service's URL or its
-      # namespace.
-      #
-      # @param service_key [to_s] service URL or namespace
-      # @return [nil]
-      def use_service(service_key)
-        odata_config[:service] = OData::ServiceRegistry[service_key.to_s]
-      end
-
-      def use_entity_set(set_name)
-        odata_config[:entity_set_name] = set_name.to_s
-      end
-
-      # Get the OData::Service
-      # @return [OData::Service]
-      # @api private
-      def odata_service
-        odata_config[:service]
-      end
-
-      # Get the OData::Service's namespace
-      # @return [String] OData Service's namespace
-      # @api private
-      def odata_namespace
-        odata_service.try(:namespace)
-      end
-
-      # Returns the configuration for working with the OData gem.
-      # @return [Hash]
-      # @api private
-      def odata_config
-        if class_variable_defined?(:@@odata_config)
-          class_variable_get(:@@odata_config)
-        else
-          class_variable_set(:@@odata_config, {})
-          class_variable_get(:@@odata_config)
-        end
-      end
-
-      # Returns the entity set name this model is related to.
-      # @return [String]
-      # @api private
-      def odata_entity_set_name
-        odata_config[:entity_set_name] ||= self.name.pluralize
-      end
-
       # Defines a property from this model's related OData::Entity you want
       # mapped to an attribute.
       #
