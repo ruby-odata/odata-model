@@ -21,10 +21,14 @@ module OData
       # ...
     end
 
+    # Returns an array of registered attributes.
+    # @return [Array]
+    # @api private
     def attributes
       self.class.class_variable_get(:@@attributes)
     end
 
+    
     def odata_entity
       @odata_entity ||= self.class.odata_service[odata_entity_set_name].new_entity
     end
@@ -62,34 +66,44 @@ module OData
       # @param service_key [to_s] service URL or namespace
       # @return [nil]
       def use_service(service_key)
-        self.class_eval <<-EOS
-          @@odata_service = OData::ServiceRegistry['#{service_key}']
-        EOS
-        nil
+        odata_config[:service] = OData::ServiceRegistry[service_key.to_s]
+      end
+
+      def use_entity_set(set_name)
+        odata_config[:entity_set_name] = set_name.to_s
       end
 
       # Get the OData::Service
       # @return [OData::Service]
       # @api private
       def odata_service
-        self.class_eval <<-EOS
-          @@odata_service
-        EOS
+        odata_config[:service]
       end
 
       # Get the OData::Service's namespace
       # @return [String] OData Service's namespace
       # @api private
       def odata_namespace
-        self.class_eval <<-EOS
-          @@odata_service.nil? ? nil : @@odata_service.namespace
-        EOS
+        odata_service.try(:namespace)
       end
 
+      # Returns the configuration for working with the OData gem.
+      # @return [Hash]
+      # @api private
+      def odata_config
+        if class_variable_defined?(:@@odata_config)
+          class_variable_get(:@@odata_config)
+        else
+          class_variable_set(:@@odata_config, {})
+          class_variable_get(:@@odata_config)
+        end
+      end
+
+      # Returns the entity set name this model is related to.
+      # @return [String]
+      # @api private
       def odata_entity_set_name
-        self.class_eval <<-EOS
-          @@odata_entity_set_name ||= self.name.pluralize
-        EOS
+        odata_config[:entity_set_name] ||= self.name.pluralize
       end
 
       # Defines a property from this model's related OData::Entity you want
@@ -104,26 +118,16 @@ module OData
         nil
       end
 
-      def register_attribute(literal_name, options)
-        attribute_to_register = options[:as].try(:to_sym) || literal_name.to_s.underscore.to_sym
-
-        if self.class_variable_defined?(:@@attributes)
-          attributes = class_variable_get(:@@attributes)
-          attributes << attribute_to_register
-          class_variable_set(:@@attributes, attributes)
-        else
-          class_variable_set(:@@attributes, [attribute_to_register])
-        end
-      end
-
-      def create_accessors(literal_name, options)
-        class_eval do
-          attr_accessor (options[:as] || literal_name.to_s.underscore).to_sym
-        end
-      end
-
+      # Returns an array of all registered attributes
+      # @return [Array]
+      # @api private
       def attributes
-        class_variable_get(:@@attributes)
+        if self.class_variable_defined?(:@@attributes)
+          class_variable_get(:@@attributes)
+        else
+          class_variable_set(:@@attributes, [])
+          class_variable_get(:@@attributes)
+        end
       end
 
       # Used for ActiveModel validations
@@ -136,6 +140,18 @@ module OData
       # @api private
       def lookup_ancestors
         [self]
+      end
+
+      private
+
+      def register_attribute(literal_name, options)
+        attributes << (options[:as].try(:to_sym) || literal_name.to_s.underscore.to_sym)
+      end
+
+      def create_accessors(literal_name, options)
+        class_eval do
+          attr_accessor (options[:as] || literal_name.to_s.underscore).to_sym
+        end
       end
     end
   end
