@@ -46,6 +46,6 @@ matrix:
       jdk: oraclejdk7
     - rvm: 2.1.2
       jdk: oraclejdk8
-#addons:
-#  code_climate:
-#    repo_token: 323644d852f6ba54213f25446d6f4276dbec0adb74fefce770b083cd3e83ea1e
+addons:
+  code_climate:
+    repo_token: 4bc0ad89c0f1d04811ac287acb4a8e999c44ad65940bbf96cfe6545dc3c4a918
