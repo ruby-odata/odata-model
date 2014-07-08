@@ -18,15 +18,5 @@ module OData
     include OData::Model::ActiveModel
     include OData::Model::Configuration
     include OData::Model::Attributes
-
-    included do
-      # ...
-    end
-
-    # Methods integrated at the class level when OData::Model is included into
-    # a given class.
-    module ClassMethods
-      # ...
-    end
   end
 end
