@@ -38,6 +38,8 @@ module OData
       send(attr)
     end
 
+    # Methods integrated at the class level when OData::Model is included into
+    # a given class.
     module ClassMethods
       # Used for ActiveModel validations
       # @api private
