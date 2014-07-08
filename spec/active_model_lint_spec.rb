@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-class BareModel
-  include OData::Model
-end
-
 describe OData::Model do
   let(:subject) { BareModel.new }
 
