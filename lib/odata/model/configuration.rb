@@ -1,5 +1,8 @@
 module OData
   module Model
+    # The OData::Model::Configuration module encapsulates all the functionality
+    # specifically needed for OData::Model to maintain internal configuration
+    # details about it's relationship to the OData gem.
     module Configuration
       extend ActiveSupport::Concern
 
@@ -7,10 +10,18 @@ module OData
         # ...
       end
 
+      # Returns the entity the current model is associated with, or a fresh
+      # entity.
+      # @return [OData::Entity]
+      # @api private
       def odata_entity
         @odata_entity ||= self.class.odata_service[odata_entity_set_name].new_entity
       end
 
+      # Returns the name of the OData::EntitySet the current model is related
+      # to.
+      # @return [String]
+      # @api private
       def odata_entity_set_name
         self.class.odata_entity_set_name
       end
@@ -25,10 +36,19 @@ module OData
         # @return [nil]
         def use_service(service_key)
           odata_config[:service] = OData::ServiceRegistry[service_key.to_s]
+          nil
         end
 
+        # Define the entity set to use for the current OData::Model. This
+        # method will record in the OData configuration the supplied name so
+        # that it can be used to communicate properly with the underlying
+        # OData::Service.
+        #
+        # @param set_name [to_s] name of EntitySet used by OData service
+        # @return [nil]
         def use_entity_set(set_name)
           odata_config[:entity_set_name] = set_name.to_s
+          nil
         end
 
         # Get the OData::Service
