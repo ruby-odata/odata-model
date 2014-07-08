@@ -1,5 +1,9 @@
 module OData
   module Model
+    # The OData::Model::Attributes module encapsulates all the functionality
+    # specifically needed for OData::Model to support the mapping of
+    # OData::Entity properties to attributes on the class that includes
+    # OData::Model.
     module Attributes
       extend ActiveSupport::Concern
 
