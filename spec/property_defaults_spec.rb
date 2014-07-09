@@ -9,6 +9,10 @@ describe OData::Model do
       it { expect(Product.new).to respond_to(attr_name) }
     end
 
+    attributes.each do |attr_name|
+      it { expect(Product.new).to respond_to("#{attr_name}=") }
+    end
+
     it { expect(Product).to respond_to(:attributes)}
     it { expect(Product.attributes).to eq(attributes) }
 

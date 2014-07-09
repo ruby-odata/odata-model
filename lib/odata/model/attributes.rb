@@ -26,8 +26,11 @@ module OData
         # @param options [Hash] hash of options
         # @return nil
         def property(literal_name, options = {})
-          register_attribute(literal_name, options)
-          create_accessors(literal_name, options)
+          attribute_name = (options[:as] || literal_name.to_s.underscore).to_sym
+
+          register_attribute(attribute_name, literal_name, options)
+          create_accessors(attribute_name)
+
           nil
         end
 
@@ -43,16 +46,59 @@ module OData
           end
         end
 
-        private
-
-        def register_attribute(literal_name, options)
-          attributes << (options[:as].try(:to_sym) || literal_name.to_s.underscore.to_sym)
+        # Returns a hash keyed to the attribute name of passed options from the
+        # property definitions.
+        # @return [Hash]
+        # @api private
+        def attribute_options
+          if self.class_variable_defined?(:@@attribute_options)
+            class_variable_get(:@@attribute_options)
+          else
+            class_variable_set(:@@attribute_options, {})
+            class_variable_get(:@@attribute_options)
+          end
         end
 
-        def create_accessors(literal_name, options)
-          class_eval do
-            attr_accessor (options[:as] || literal_name.to_s.underscore).to_sym
+        # Returns a hash keyed to the attribute name with the values being the
+        # literal OData property name to use when accessing entity data.
+        # @return [Hash]
+        # @api private
+        def property_map
+          if self.class_variable_defined?(:@@property_map)
+            class_variable_get(:@@property_map)
+          else
+            class_variable_set(:@@property_map, {})
+            class_variable_get(:@@property_map)
           end
+        end
+
+        # Registers a supplied attribute with its literal property name and any
+        # provided options.
+        # @return [nil]
+        # @api private
+        def register_attribute(attribute_name, literal_name, options)
+          attributes << attribute_name
+          attribute_options[attribute_name] = options
+          property_map[attribute_name] = literal_name
+
+          nil
+        end
+
+        # Create attribute accessors for the supplied attribute name.
+        # @return [nil]
+        # @api private
+        def create_accessors(attribute_name)
+          class_eval do
+            define_method(attribute_name) do
+              entity[property_map[attribute_name]]
+            end
+
+            define_method("#{attribute_name}=") do |value|
+              entity[property_map[attribute_name]] = value
+            end
+          end
+
+          nil
         end
       end
     end
