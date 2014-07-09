@@ -7,6 +7,7 @@ require 'odata/model/version'
 require 'odata/model/active_model'
 require 'odata/model/configuration'
 require 'odata/model/attributes'
+require 'odata/model/persistence'
 
 # OData is the parent namespace for the OData::Model project.
 module OData
@@ -19,5 +20,6 @@ module OData
     include OData::Model::ActiveModel
     include OData::Model::Configuration
     include OData::Model::Attributes
+    include OData::Model::Persistence
   end
 end

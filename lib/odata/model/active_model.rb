@@ -23,12 +23,6 @@ module OData
         @errors ||= ::ActiveModel::Errors.new(self)
       end
 
-      # Returns whether the current instance has been persisted.
-      # @return [Boolean]
-      def persisted?
-        false
-      end
-
       # Used for ActiveModel validations
       # @api private
       def read_attribute_for_validation(attr)
