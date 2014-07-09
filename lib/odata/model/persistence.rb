@@ -1,5 +1,8 @@
 module OData
   module Model
+    # The OData::Model::Persistence module encapsulates all the functionality
+    # specifically needed for OData::Model to persist data to and from the
+    # OData gem.
     module Persistence
       extend ActiveSupport::Concern
 
