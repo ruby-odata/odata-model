@@ -26,7 +26,7 @@ module OData
         self.class.odata_entity_set_name
       end
 
-      # Methods mixed in at the class
+      # Methods mixed in at the class level.
       module ClassMethods
         # Define the service to use for the current OData::Model. This method
         # will cause the service to be looked up in the OData::ServiceRegistry

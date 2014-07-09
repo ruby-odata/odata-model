@@ -34,7 +34,7 @@ module OData
         send(attr)
       end
 
-      # @api private
+      # Methods mixed in at the class level.
       module ClassMethods
         # Used for ActiveModel validations
         # @api private

@@ -18,6 +18,7 @@ module OData
         self.class.class_variable_get(:@@attributes)
       end
 
+      # Methods mixed in at the class level.
       module ClassMethods
         # Defines a property from this model's related OData::Entity you want
         # mapped to an attribute.
