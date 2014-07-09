@@ -18,6 +18,13 @@ module OData
         self.class.class_variable_get(:@@attributes)
       end
 
+      # Returns the hash for the attribute to property mapping.
+      # @return [Hash]
+      # @api private
+      def property_map
+        self.class.class_variable_get(:@@property_map)
+      end
+
       # Methods mixed in at the class level.
       module ClassMethods
         # Defines a property from this model's related OData::Entity you want
@@ -82,6 +89,9 @@ module OData
           attribute_options[attribute_name] = options
           property_map[attribute_name] = literal_name
 
+          # Ties into ActiveModel::Dirty
+          define_attribute_methods attribute_name
+
           nil
         end
 
@@ -91,11 +101,15 @@ module OData
         def create_accessors(attribute_name)
           class_eval do
             define_method(attribute_name) do
-              entity[property_map[attribute_name]]
+              odata_entity[property_map[attribute_name]]
             end
 
             define_method("#{attribute_name}=") do |value|
-              entity[property_map[attribute_name]] = value
+              unless entity[property_map[attribute_name]] == value
+                send("#{attribute_name}_will_change!")
+              end
+
+              odata_entity[property_map[attribute_name]] = value
             end
           end
 

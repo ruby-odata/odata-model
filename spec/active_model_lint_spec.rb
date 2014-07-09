@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe OData::Model do
-  let(:subject) { BareModel.new }
+  let(:subject) { Product.new }
 
-  it { expect(BareModel).to respond_to(:model_name) }
+  it { expect(Product).to respond_to(:model_name) }
 
   it { expect(subject).to respond_to(:to_key) }
   it { expect(subject).to respond_to(:to_param) }
@@ -42,7 +42,7 @@ describe OData::Model do
   end
 
   describe '.model_name' do
-    let(:model_name) { BareModel.model_name }
+    let(:model_name) { Product.model_name }
 
     it { expect(model_name).to respond_to(:to_str) }
     it { expect(model_name.human).to respond_to(:to_str) }
