@@ -23,7 +23,7 @@ module OData
 
       # Save the current model.
       def save
-        # TODO persistence work
+        odata_service[odata_entity_set_name] << odata_entity
         instance_variable_set(:@persisted, true)
         changes_applied
       end
