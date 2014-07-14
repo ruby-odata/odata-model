@@ -26,6 +26,13 @@ module OData
         self.class.odata_entity_set_name
       end
 
+      # Returns the OData::EntitySet the current model is related to.
+      # @return [OData::EntitySet]
+      # @api private
+      def odata_entity_set
+        self.class.odata_entity_set
+      end
+
       # Methods mixed in at the class level.
       module ClassMethods
         # Define the service to use for the current OData::Model. This method
@@ -83,6 +90,13 @@ module OData
         # @api private
         def odata_entity_set_name
           odata_config[:entity_set_name] ||= self.name.pluralize
+        end
+
+        # Returns the OData::EntitySet the current model is related to.
+        # @return [OData::EntitySet]
+        # @api private
+        def odata_entity_set
+          odata_config[:entity_set] ||= odata_service[odata_entity_set_name]
         end
       end
     end
