@@ -25,17 +25,53 @@ module OData
         self
       end
 
+      # Set the options for ordering the final query.
+      # @param args [Symbol,Hash]
+      # @return [self]
+      def order_by(*args)
+        validate_order_by_arguments(args)
+        query_structure[:orderby] += process_order_by_arguments(args)
+        self
+      end
+
       private
 
       def query_structure
         @query_structure ||= {
-            top:   nil,
-            skip:  nil
+            top:      nil,
+            skip:     nil,
+            orderby:  []
         }
       end
 
       def entity_set
         @entity_set
+      end
+
+      def validate_order_by_arguments(args)
+        args.each do |arg|
+          unless arg.is_a?(Hash) || arg.is_a?(Symbol)
+            raise ArgumentError, 'must be a Hash or Symbol'
+          end
+        end
+      end
+
+      def process_order_by_arguments(args)
+        args.collect do |arg|
+          case arg
+            when is_a?(Symbol)
+              lookup_property_name(arg)
+            when is_a?(Hash)
+              arg.each do |key, value|
+                "#{lookup_property_name(key)} #{value}"
+              end
+          end
+        end
+      end
+
+      def lookup_property_name(mapping)
+        # TODO actually lookup the property name
+        mapping.to_s
       end
     end
   end
