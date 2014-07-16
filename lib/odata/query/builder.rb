@@ -1,15 +1,24 @@
 module OData
   class Query
+    # Provides a OData::Model aware means of building up queries using chained
+    # methods. Also implements the Enumerable module to support working with
+    # the results of any query in a sane way.
     class Builder
+      include Enumerable
+
       SUPPORTED_OPERATIONS = [:eq, :ne, :gt, :ge, :lt, :le, :not]
 
       # Sets up a new Query Builder.
-      # @param entity_set [OData::EntitySet] the EntitySet to query
+      # @param model [OData::Model] the model to build the query for
       def initialize(model)
         @entity_set = model.odata_entity_set
         @property_map = model.property_map
       end
 
+      def each
+        # TODO implement
+      end
+      
       # Set the number of entities to skip for the final query.
       # @param value [to_i,nil]
       # @return [self]

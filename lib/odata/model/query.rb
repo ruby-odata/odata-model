@@ -7,6 +7,7 @@ module OData
         # ...
       end
 
+      # Methods mixed in at the class level.
       module ClassMethods
         # Starts a chain for building up an OData query.
         # @return [OData::Query::Builder]
@@ -15,7 +16,7 @@ module OData
         end
 
         # Enables lookup of model entities by their primary key.
-        # @param [to_s] primary key value to lookup
+        # @param primary_key_value [to_s] primary key value to lookup
         # @return [OData::Model,nil]
         def [](primary_key_value)
           entity = odata_entity_set[primary_key_value]
