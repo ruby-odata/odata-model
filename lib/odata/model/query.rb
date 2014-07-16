@@ -11,7 +11,7 @@ module OData
         # Starts a chain for building up an OData query.
         # @return [OData::Query::Builder]
         def find
-          OData::Query::Builder.new(odata_entity_set)
+          OData::Query::Builder.new(self)
         end
 
         # Enables lookup of model entities by their primary key.

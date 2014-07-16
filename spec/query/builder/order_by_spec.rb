@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OData::Query::Builder do
-  let(:subject) { OData::Query::Builder.new(Product.odata_entity_set) }
+  let(:subject) { OData::Query::Builder.new(Product) }
 
   describe '#order_by' do
     it { expect(subject).to respond_to(:order_by) }

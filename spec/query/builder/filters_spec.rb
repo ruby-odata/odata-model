@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OData::Query::Builder do
-  let(:subject) { OData::Query::Builder.new(Product.odata_entity_set) }
+  let(:subject) { OData::Query::Builder.new(Product) }
 
   describe 'filter method' do
     describe '#where' do
@@ -12,7 +12,7 @@ describe OData::Query::Builder do
     end
 
     describe '#is' do
-      let(:subject) { OData::Query::Builder.new(Product.odata_entity_set).where(:name) }
+      let(:subject) { OData::Query::Builder.new(Product).where(:name) }
 
       it { expect(subject).to respond_to(:is) }
 
@@ -21,7 +21,7 @@ describe OData::Query::Builder do
     end
 
     describe '#and' do
-      let(:subject) { OData::Query::Builder.new(Product.odata_entity_set).where(:name).is(eq: 'Bread') }
+      let(:subject) { OData::Query::Builder.new(Product).where(:name).is(eq: 'Bread') }
 
       it { expect(subject).to respond_to(:and) }
 
@@ -30,7 +30,7 @@ describe OData::Query::Builder do
     end
 
     describe '#or' do
-      let(:subject) { OData::Query::Builder.new(Product.odata_entity_set).where(:name).is(eq: 'Bread') }
+      let(:subject) { OData::Query::Builder.new(Product).where(:name).is(eq: 'Bread') }
 
       it { expect(subject).to respond_to(:or) }
 

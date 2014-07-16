@@ -5,8 +5,9 @@ module OData
 
       # Sets up a new Query Builder.
       # @param entity_set [OData::EntitySet] the EntitySet to query
-      def initialize(entity_set)
-        @entity_set = entity_set
+      def initialize(model)
+        @entity_set = model.odata_entity_set
+        @property_map = model.property_map
       end
 
       # Set the number of entities to skip for the final query.
@@ -100,7 +101,28 @@ module OData
       # @param value [to_s]
       # @return self
       def or(value)
-        where(value)
+        query_structure[:filter] << [{
+          property:   lookup_property_name(value),
+          opeartion:  nil,
+          argument:   nil
+        }]
+        self
+      end
+
+      # Returns the current query structure as a valid query string.
+      def to_s
+        # TODO validate the actual query structure
+
+        query_array = []
+        query_array << filters_to_query
+        query_array << orderby_to_query
+        query_array << select_to_query
+        query_array << top_to_query
+        query_array << skip_to_query
+        query_array.compact!
+
+        query_string = query_array.join('&')
+        "#{entity_set.name}?#{query_string}"
       end
 
       private
@@ -117,6 +139,41 @@ module OData
 
       def entity_set
         @entity_set
+      end
+
+      def skip_to_query
+        return nil if query_structure[:skip].nil?
+        "$skip=#{query_structure[:skip]}"
+      end
+
+      def top_to_query
+        return nil if query_structure[:top].nil?
+        "$top=#{query_structure[:top]}"
+      end
+
+      def orderby_to_query
+        return nil if query_structure[:orderby].empty?
+        "$orderby=#{query_structure[:orderby].join(',')}"
+      end
+
+      def select_to_query
+        return nil if query_structure[:select].empty?
+        "$select=#{query_structure[:select].join(',')}"
+      end
+
+      def filters_to_query
+        str = "$filter="
+        clauses = []
+        query_structure[:filter].each do |clause|
+          clause_filters = []
+          clause.each do |filter|
+            clause_filters << "#{filter[:property]} #{filter[:operation]} #{filter[:argument]}"
+          end
+          clauses << clause_filters.join(' and ')
+        end
+        clauses.collect! {|clause| "(#{clause})"}
+        str << clauses.join(' or ')
+        str
       end
 
       def validate_order_by_arguments(args)
@@ -146,8 +203,7 @@ module OData
       end
 
       def lookup_property_name(mapping)
-        # TODO actually lookup the property name
-        mapping.to_s
+        @property_map[mapping.to_s.to_sym]
       end
     end
   end
