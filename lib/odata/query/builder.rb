@@ -34,13 +34,22 @@ module OData
         self
       end
 
+      # Set the properties to select with the final query.
+      # @param args [Array<Symbol>]
+      # @return self
+      def select(*args)
+        args.each {|arg| query_structure[:select] << arg.to_sym}
+        self
+      end
+
       private
 
       def query_structure
         @query_structure ||= {
             top:      nil,
             skip:     nil,
-            orderby:  []
+            orderby:  [],
+            select:   []
         }
       end
 
