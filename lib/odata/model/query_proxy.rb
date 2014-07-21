@@ -51,6 +51,14 @@ module OData
         self
       end
 
+      # Specified the ordering for the query.
+      # @param property_name [to_sym]
+      # @return [self]
+      def order_by(property_name)
+        query.order_by(target.property_map[property_name.to_sym])
+        self
+      end
+
       private
 
       attr_reader :target, :query

@@ -71,9 +71,15 @@ describe OData::Model::QueryProxy do
     it { pending; fail }
   end
 
-  it { pending; expect(subject).to respond_to(:order_by) }
+  it { expect(subject).to respond_to(:order_by) }
   describe '#order_by' do
-    it { pending; fail }
+    let(:subject) { query_proxy.order_by(:rating) }
+
+    it { expect(subject).to be_a(OData::Model::QueryProxy) }
+
+    it 'properly generates query' do
+      expect(query_string).to eq('Products?$orderby=Rating')
+    end
   end
 
   it { pending; expect(subject).to respond_to(:and) }
