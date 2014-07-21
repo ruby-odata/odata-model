@@ -16,7 +16,7 @@ require 'odata/model'
 # Suppressing a deprecation warning
 I18n.enforce_available_locales = false
 
-OData::Service.open('http://services.odata.org/OData/OData.svc')
+OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
 
 require 'example_models/bare_model'
 require 'example_models/odatademo_product'
