@@ -1,5 +1,6 @@
 module OData
   module Model
+    # Provides the methods that make up the query interface for OData::Model.
     module Query
       extend ActiveSupport::Concern
 
