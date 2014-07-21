@@ -4,14 +4,13 @@ require 'active_support/concern'
 
 require 'odata'
 
-require 'odata/query/builder'
-
 require 'odata/model/version'
 require 'odata/model/active_model'
 require 'odata/model/configuration'
 require 'odata/model/attributes'
 require 'odata/model/persistence'
 require 'odata/model/query'
+require 'odata/model/query_proxy'
 
 # OData is the parent namespace for the OData::Model project.
 module OData

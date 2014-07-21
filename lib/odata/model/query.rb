@@ -9,10 +9,12 @@ module OData
 
       # Methods mixed in at the class level.
       module ClassMethods
-        # Starts a chain for building up an OData query.
-        # @return [OData::Query::Builder]
-        def find
-          OData::Query::Builder.new(self)
+        # Starts a query chain with a filter for a given property's name.
+        # @param property_name [to_sym]
+        # @return [OData::Model::Query]
+        def where(property_name)
+          query_proxy = OData::Model::QueryProxy.new(self)
+          query_proxy.where(property_name.to_sym)
         end
 
         # Enables lookup of model entities by their primary key.
