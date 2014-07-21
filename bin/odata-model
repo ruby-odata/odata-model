@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require 'odata/model'
+require 'slop'
+
+opts = Slop.parse do
+  banner 'Usage: odata-model <command> [options]'
+  help
+
+  on :v, 'Print the version' do
+    puts "Version #{OData::Model::VERSION}"
+  end
+  
+  command 'list' do
+    on :s, :service_url=, 'OData service URL'
+    on :u, :username=, 'username (optional)', argument: :optional
+    on :p, :password=, 'password (optional)', argument: :optional
+    on :a, :auth_type=, 'CURL authentication type (optional)', argument: :optional
+
+    run do |opts, args|
+      service = OData::Service.open(opts[:service_url])
+      service.entity_sets.each do |type, name|
+        puts "#{name} <EntityType: #{type}>"
+      end
+    end
+  end
+end
