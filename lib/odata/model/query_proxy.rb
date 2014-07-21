@@ -6,7 +6,8 @@ module OData
       # Instantiates a new QueryProxy for the supplied OData::Model class.
       # @param model_class [Class]
       def initialize(model_class)
-        target = model_class
+        @target = model_class
+        @query = target.odata_entity_set.query
       end
 
       # Sets up a new criteria for filters for the given property name.
@@ -17,7 +18,7 @@ module OData
 
       private
 
-      attr_accessor :target
+      attr_reader :target, :query
     end
   end
 end
