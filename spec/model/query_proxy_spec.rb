@@ -50,9 +50,15 @@ describe OData::Model::QueryProxy do
     end
   end
 
-  it { pending; expect(subject).to respond_to(:skip) }
+  it { expect(subject).to respond_to(:skip) }
   describe '#skip' do
-    it { pending; fail }
+    let(:subject) { query_proxy.skip(6) }
+
+    it { expect(subject).to be_a(OData::Model::QueryProxy) }
+
+    it 'properly generates query' do
+      expect(query_string).to eq('Products?$skip=6')
+    end
   end
 
   it { pending; expect(subject).to respond_to(:expand) }

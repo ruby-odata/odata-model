@@ -43,6 +43,14 @@ module OData
         self
       end
 
+      # Specifies the number of entities to skip for the query.
+      # @param value [to_i]
+      # @return [self]
+      def skip(value)
+        query.skip(value.to_i)
+        self
+      end
+
       private
 
       attr_reader :target, :query
