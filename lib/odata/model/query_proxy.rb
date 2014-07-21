@@ -35,6 +35,14 @@ module OData
         self
       end
 
+      # Specifies the limit for the query.
+      # @param value [to_i]
+      # @return [self]
+      def limit(value)
+        query.limit(value.to_i)
+        self
+      end
+
       private
 
       attr_reader :target, :query
