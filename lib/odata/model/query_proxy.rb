@@ -2,6 +2,7 @@ module OData
   module Model
     # Provides the proxy between OData::Query and OData::Model.
     class QueryProxy
+      # Last filter criteria set on the query.
       attr_reader :last_criteria
 
       # Instantiates a new QueryProxy for the supplied OData::Model class.
