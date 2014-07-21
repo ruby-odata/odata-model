@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'rspec', '~> 3.0.0'
 
-  spec.add_dependency 'odata', '~> 0.2'
+  spec.add_dependency 'odata', '~> 0.5'
   spec.add_dependency 'activesupport', '>= 3.0.0'
   spec.add_dependency 'activemodel', '>= 3.0.0'
 end
