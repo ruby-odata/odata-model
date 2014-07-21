@@ -66,9 +66,15 @@ describe OData::Model::QueryProxy do
     it { pending; fail }
   end
 
-  it { pending; expect(subject).to respond_to(:select) }
+  it { expect(subject).to respond_to(:select) }
   describe '#select' do
-    it { pending; fail }
+    let(:subject) { query_proxy.select(:name) }
+
+    it { expect(subject).to be_a(OData::Model::QueryProxy) }
+
+    it 'properly generates query' do
+      expect(query_string).to eq('Products?$select=Name')
+    end
   end
 
   it { expect(subject).to respond_to(:order_by) }
@@ -95,5 +101,17 @@ describe OData::Model::QueryProxy do
   it { pending; expect(subject).to respond_to(:not) }
   describe '#not' do
     it { pending; fail }
+  end
+
+  it { expect(subject).to respond_to(:each) }
+  describe '#each' do
+    it 'returns model instances in turn' do
+      counter = 0
+      subject.each do |model|
+        expect(model).to be_a(Product)
+        counter += 1
+      end
+      expect(counter).to eq(11)
+    end
   end
 end

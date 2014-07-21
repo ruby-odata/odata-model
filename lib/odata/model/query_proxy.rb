@@ -2,6 +2,8 @@ module OData
   module Model
     # Provides the proxy between OData::Query and OData::Model.
     class QueryProxy
+      include Enumerable
+
       # Last filter criteria set on the query.
       attr_reader :last_criteria
 
@@ -58,6 +60,24 @@ module OData
       def order_by(property_name)
         query.order_by(target.property_map[property_name.to_sym])
         self
+      end
+
+      # Selects specific properties to return with query.
+      # @param property_name [to_sym]
+      # @return [self]
+      def select(property_name)
+        query.select(target.property_map[property_name.to_sym])
+        self
+      end
+
+      # Executes the query and returns each instance of the target model in
+      # turn.
+      def each(&block)
+        query.execute.each do |entity|
+          model = target.new
+          model.instance_variable_set(:@odata_entity, entity)
+          block_given? ? block.call(model) : yield(model)
+        end
       end
 
       private

@@ -28,5 +28,10 @@ describe OData::Model do
     describe 'Product#order_by' do
       it { expect(Product.order_by(:rating)).to be_a(OData::Model::QueryProxy) }
     end
+
+    it { expect(Product).to respond_to(:select) }
+    describe 'Product#order_by' do
+      it { expect(Product.select(:name)).to be_a(OData::Model::QueryProxy) }
+    end
   end
 end

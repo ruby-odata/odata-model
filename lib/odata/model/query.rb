@@ -42,6 +42,14 @@ module OData
           query_proxy.order_by(property_name.to_sym)
         end
 
+        # Starts a query chain with a list of properties to select.
+        # @param property_name [to_sym]
+        # @return [OData::Model::Query]
+        def select(property_name)
+          query_proxy = OData::Model::QueryProxy.new(self)
+          query_proxy.select(property_name.to_sym)
+        end
+
         # Enables lookup of model entities by their primary key.
         # @param primary_key_value [to_s] primary key value to lookup
         # @return [OData::Model,nil]
