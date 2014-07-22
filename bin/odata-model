@@ -86,7 +86,7 @@ opts = Slop.parse do
     on :p, :password=, 'password (optional)', argument: :optional
     on :a, :auth_type=, 'CURL authentication type (optional)', argument: :optional
 
-    on :sn, :service_name=, 'OData service name to use', argument: :optional
+    on :n, :service_name=, 'OData service name to use', argument: :optional
     on :m, :model_name=, 'name to give model', argument: :optional
     on :e, :entity_set=, 'EntitySet to generate model for'
 
