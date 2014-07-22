@@ -1,67 +1,9 @@
 #!/usr/bin/env ruby
-require 'odata/model'
 require 'slop'
-require 'erb'
 
-def validate_service_url(opts)
-  unless opts[:service_url]
-    puts 'You must supply a service_url (-s, --service_url=)'
-    exit(1)
-  end
-end
-
-def handle_auth_options(opts)
-  service_options = {}
-  if opts[:username] && opts[:password]
-    service_options[:typhoeus] = {
-        username: opts[:username],
-        password: opts[:password]
-    }
-    if opts[:auth_type]
-      auth_type = opts[:auth_type].to_sym
-      service_options[:typhoeus][:httpauth] = auth_type
-    end
-  end
-  service_options
-end
-
-class ModelTemplate
-  attr_reader :class_name, :service_name, :properties
-
-  def initialize(class_name, service_name, properties)
-    @class_name = class_name
-    @service_name = service_name
-    @properties = properties
-  end
-
-  def template
-    <<-EOS
-class <%= @class_name %>
-  include OData::Model
-
-  use_service '<%= @service_name %>'
-
-<% properties.each do |property_name, as_name| %>
-  property '<%= property_name %>'<%= as_name.nil? ? nil : ", as: :\#\{as_name\}" %>
-<% end %>
-end
-    EOS
-  end
-
-  def render
-    renderer = ERB.new(template, 0, '<>')
-    renderer.result(binding)
-  end
-end
-
-def gather_properties_for_model(opts, service)
-  if opts[:properties]
-    Hash[opts[:properties].collect {|property_set| property_set.split(':')}]
-  else
-    properties = service.properties_for(service[opts[:entity_set]].type)
-    Hash[properties.collect {|k,v| [k, nil]}]
-  end
-end
+require 'odata/model'
+require 'odata/model/cli/model_template'
+require 'odata/model/cli/generator_configuration'
 
 opts = Slop.parse do
   banner 'Usage: odata-model <command> [options]'
@@ -78,10 +20,10 @@ opts = Slop.parse do
     on :a, :auth_type=, 'CURL authentication type (optional)', argument: :optional
 
     run do |opts, args|
-      validate_service_url(opts)
+      OData::Model::CLI::GeneratorConfiguration.validate_service_url(opts)
+      generator = OData::Model::CLI::GeneratorConfiguration.new(opts)
 
-      service = OData::Service.open(opts[:service_url], handle_auth_options(opts))
-      service.entity_sets.each do |type, name|
+      generator.service.entity_sets.each do |type, name|
         puts "#{name} <EntityType: #{type}>"
       end
 
@@ -102,17 +44,10 @@ opts = Slop.parse do
     on :properties=, as: Array, argument: :optional
 
     run do |opts, args|
-      validate_service_url(opts)
+      OData::Model::CLI::GeneratorConfiguration.validate_service_url(opts)
 
-      service = OData::Service.open(opts[:service_url], handle_auth_options(opts))
-      entity_set = service[opts[:entity_set]]
-
-      properties = gather_properties_for_model(opts, service)
-      class_name = opts[:model_name] || entity_set.type
-      service_name = opts[:service_name] || opts[:service_url]
-
-      template = ModelTemplate.new(class_name, service_name, properties)
-      puts template.render
+      generator = OData::Model::CLI::GeneratorConfiguration.new(opts)
+      puts generator.generate
 
       exit(0)
     end
