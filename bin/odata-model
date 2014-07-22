@@ -54,6 +54,15 @@ end
   end
 end
 
+def gather_properties_for_model(opts, service)
+  if opts[:properties]
+    Hash[opts[:properties].collect {|property_set| property_set.split(':')}]
+  else
+    properties = service.properties_for(service[opts[:entity_set]].type)
+    Hash[properties.collect {|k,v| [k, nil]}]
+  end
+end
+
 opts = Slop.parse do
   banner 'Usage: odata-model <command> [options]'
   help
@@ -90,16 +99,17 @@ opts = Slop.parse do
     on :m, :model_name=, 'name to give model', argument: :optional
     on :e, :entity_set=, 'EntitySet to generate model for'
 
+    on :properties=, as: Array, argument: :optional
+
     run do |opts, args|
       validate_service_url(opts)
 
       service = OData::Service.open(opts[:service_url], handle_auth_options(opts))
       entity_set = service[opts[:entity_set]]
-      properties = service.properties_for(entity_set.type)
 
+      properties = gather_properties_for_model(opts, service)
       class_name = opts[:model_name] || entity_set.type
       service_name = opts[:service_name] || opts[:service_url]
-      properties = Hash[properties.collect {|k,v| [k, nil]}]
 
       template = ModelTemplate.new(class_name, service_name, properties)
       puts template.render
