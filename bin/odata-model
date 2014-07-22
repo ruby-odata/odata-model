@@ -1,6 +1,58 @@
 #!/usr/bin/env ruby
 require 'odata/model'
 require 'slop'
+require 'erb'
+
+def validate_service_url(opts)
+  unless opts[:service_url]
+    puts 'You must supply a service_url (-s, --service_url=)'
+    exit(1)
+  end
+end
+
+def handle_auth_options(opts)
+  service_options = {}
+  if opts[:username] && opts[:password]
+    service_options[:typhoeus] = {
+        username: opts[:username],
+        password: opts[:password]
+    }
+    if opts[:auth_type]
+      auth_type = opts[:auth_type].to_sym
+      service_options[:typhoeus][:httpauth] = auth_type
+    end
+  end
+  service_options
+end
+
+class ModelTemplate
+  attr_reader :class_name, :service_name, :properties
+
+  def initialize(class_name, service_name, properties)
+    @class_name = class_name
+    @service_name = service_name
+    @properties = properties
+  end
+
+  def template
+    <<-EOS
+class <%= @class_name %>
+  include OData::Model
+
+  use_service '<%= @service_name %>'
+
+<% properties.each do |property_name, as_name| %>
+  property '<%= property_name %>'<%= as_name.nil? ? nil : ", as: :\#\{as_name\}" %>
+<% end %>
+end
+    EOS
+  end
+
+  def render
+    renderer = ERB.new(template, 0, '<>')
+    renderer.result(binding)
+  end
+end
 
 opts = Slop.parse do
   banner 'Usage: odata-model <command> [options]'
@@ -17,10 +69,44 @@ opts = Slop.parse do
     on :a, :auth_type=, 'CURL authentication type (optional)', argument: :optional
 
     run do |opts, args|
-      service = OData::Service.open(opts[:service_url])
+      validate_service_url(opts)
+
+      service = OData::Service.open(opts[:service_url], handle_auth_options(opts))
       service.entity_sets.each do |type, name|
         puts "#{name} <EntityType: #{type}>"
       end
+
+      exit(0)
+    end
+  end
+
+  command 'generate' do
+    on :s, :service_url=, 'OData service URL'
+    on :u, :username=, 'username (optional)', argument: :optional
+    on :p, :password=, 'password (optional)', argument: :optional
+    on :a, :auth_type=, 'CURL authentication type (optional)', argument: :optional
+
+    on :sn, :service_name=, 'OData service name to use', argument: :optional
+    on :m, :model_name=, 'name to give model', argument: :optional
+    on :e, :entity_set=, 'EntitySet to generate model for'
+
+    run do |opts, args|
+      validate_service_url(opts)
+
+      service = OData::Service.open(opts[:service_url], handle_auth_options(opts))
+      entity_set = service[opts[:entity_set]]
+      properties = service.properties_for(entity_set.type)
+
+      class_name = opts[:model_name] || entity_set.type
+      service_name = opts[:service_name] || opts[:service_url]
+      properties = Hash[properties.collect {|k,v| [k, nil]}]
+
+      template = ModelTemplate.new(class_name, service_name, properties)
+      puts template.render
+
+      exit(0)
     end
   end
 end
+
+puts opts
