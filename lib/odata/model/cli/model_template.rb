@@ -9,10 +9,11 @@ module OData
       class ModelTemplate
         attr_reader :class_name, :service_name, :properties
 
-        def initialize(class_name, service_name, properties)
+        def initialize(class_name, service_name, properties, entity_name)
           @class_name = class_name
           @service_name = service_name
           @properties = properties
+          @entity_name = entity_name
         end
 
         def template
@@ -21,6 +22,7 @@ class <%= @class_name %>
   include OData::Model
 
   use_service '<%= @service_name %>'
+  <%= @entity_name.nil? ? nil : "for_entity  '\#\{@entity_name\}'" %>
 
 <% properties.each do |property_name, as_name| %>
   property '<%= property_name %>'<%= as_name.nil? ? nil : ", as: :\#\{as_name\}" %>
