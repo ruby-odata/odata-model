@@ -10,5 +10,8 @@ describe OData::Model do
 
     it { expect(Product).to respond_to(:odata_namespace) }
     it { expect(Product.odata_namespace).to eq('ODataDemo') }
+
+    it { expect(Product).to respond_to(:odata_service_name) }
+    it { expect(Product.odata_service_name).to eq('ODataDemo') }
   end
 end

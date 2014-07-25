@@ -22,7 +22,7 @@ class <%= @class_name %>
   include OData::Model
 
   use_service '<%= @service_name %>'
-  <%= @entity_name.nil? ? nil : "for_entity  '\#\{@entity_name\}'" %>
+  <%= @entity_name.nil? ? nil : "use_entity_set  '\#\{@entity_name\}'" %>
 
 <% properties.each do |property_name, as_name| %>
   property '<%= property_name %>'<%= as_name.nil? ? nil : ", as: :\#\{as_name\}" %>

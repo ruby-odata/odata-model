@@ -66,6 +66,13 @@ module OData
           odata_config[:service]
         end
 
+        # Returns the name of the OData::Service used.
+        # @return [String]
+        # @api private
+        def odata_service_name
+          odata_config[:service].name
+        end
+
         # Get the OData::Service's namespace
         # @return [String] OData Service's namespace
         # @api private
