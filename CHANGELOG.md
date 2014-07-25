@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.0
+
+* Added OData::Model::Railtie for Ruby on Rails integration.
+
 ## 0.2.0
 
 * Added `odata_service_name` to private API methods
