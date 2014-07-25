@@ -59,6 +59,17 @@ module OData
           nil
         end
 
+        # Define the entity set to use for the current OData::Model. This
+        # method will look up the correct EntitySet using the Entity's type
+        # name.
+        #
+        # @param entity_name [to_s] name of EntityType used by OData Service
+        # @return [nil]
+        def for_entity(entity_name)
+          odata_config[:entity_set_name] = odata_service.entity_sets[entity_name]
+          nil
+        end
+
         # Get the OData::Service
         # @return [OData::Service]
         # @api private

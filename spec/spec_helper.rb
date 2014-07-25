@@ -20,6 +20,7 @@ OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDem
 
 require 'example_models/bare_model'
 require 'example_models/odatademo_product'
+require 'example_models/odatademo_person'
 
 RSpec::Matchers.define :be_boolean do
   match do |actual|
