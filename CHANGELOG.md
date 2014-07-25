@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.2.0
+
+* Added `odata_service_name` to private API methods
+* Added `for_entity` as alternative to `use_entity_set`
+
 ## 0.1.1
 
 * Added bin/odata-model
