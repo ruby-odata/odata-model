@@ -12,6 +12,8 @@ require 'odata/model/persistence'
 require 'odata/model/query'
 require 'odata/model/query_proxy'
 
+require 'odata/model/railtie' if defined?(::Rails)
+
 # OData is the parent namespace for the OData::Model project.
 module OData
   # OData::Model provides a way to map from OData::Entity instances, as
