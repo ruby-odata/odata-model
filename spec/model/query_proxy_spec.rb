@@ -5,6 +5,12 @@ describe OData::Model::QueryProxy do
   let(:query_proxy) { OData::Model::QueryProxy.new(Product) }
   let(:query_string) { subject.send(:query).to_s }
 
+  it 'allows limiting default selection to only selecting defined properties' do
+    query_proxy = OData::Model::QueryProxy.new(LimitedProduct)
+    query_string = query_proxy.send(:query).to_s
+    expect(query_string).to eq('Products?$select=ID,Name,Rating,Price')
+  end
+
   it { expect(subject).to respond_to(:where) }
   describe '#where' do
     let(:subject) { query_proxy.where(:name) }

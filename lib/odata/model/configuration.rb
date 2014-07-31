@@ -70,6 +70,14 @@ module OData
           nil
         end
 
+        # Sets the configuration option to cause a select operation to be set
+        # by default that only queries for the properties defined in the model.
+        #
+        # @return [nil]
+        def limit_default_selection
+          odata_config[:limit_default_selection] = true
+        end
+
         # Get the OData::Service
         # @return [OData::Service]
         # @api private

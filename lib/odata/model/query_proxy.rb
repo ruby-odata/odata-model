@@ -14,6 +14,7 @@ module OData
         @target = model_class
         @query = target.odata_entity_set.query
         @last_criteria = nil
+        set_default_select
       end
 
       # Sets up a new criteria for filters for the given property name.
@@ -80,9 +81,19 @@ module OData
         end
       end
 
+      # By default we only select the properties defined on the Model.
+      # @api private
+      def set_default_select
+        if target.odata_config[:limit_default_selection]
+          query.select(target.property_map.values)
+        end
+        self
+      end
+
       private
 
       attr_reader :target, :query
+
     end
   end
 end
