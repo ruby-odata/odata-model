@@ -36,6 +36,7 @@ module OData
         def property(literal_name, options = {})
           attribute_name = (options[:as] || literal_name.to_s.underscore).to_sym
 
+          validate_attribute(literal_name)
           register_attribute(attribute_name, literal_name, options)
           create_accessors(attribute_name)
 
@@ -77,6 +78,17 @@ module OData
           else
             class_variable_set(:@@property_map, {})
             class_variable_get(:@@property_map)
+          end
+        end
+
+        # Validates the existence of the supplied attribute on the relevant
+        # Entity.
+        # @param property_name [to_s]
+        # @api private
+        def validate_attribute(property_name)
+          valid_properties = odata_service.properties_for(odata_entity_set.type)
+          unless valid_properties[property_name.to_s]
+            raise ArgumentError, "property #{property_name} does not exist for #{odata_entity_set.type} entity"
           end
         end
 

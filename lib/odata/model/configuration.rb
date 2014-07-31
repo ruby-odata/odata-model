@@ -76,6 +76,7 @@ module OData
         # @return [nil]
         def limit_default_selection
           odata_config[:limit_default_selection] = true
+          nil
         end
 
         # Get the OData::Service
