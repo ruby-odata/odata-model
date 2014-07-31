@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.4.0
+
+* Removed strict dependency on ActiveModel.
+* Added `limit_default_selection` setting to limit default queries to only the
+  supplied properties of a model.
+
 ## 0.3.0
 
 * Added OData::Model::Railtie for Ruby on Rails integration.
