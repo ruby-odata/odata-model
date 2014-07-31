@@ -5,7 +5,7 @@ require 'active_support/concern'
 require 'odata'
 
 require 'odata/model/version'
-require 'odata/model/active_model'
+require 'odata/model/active_model' if defined?(::ActiveModel)
 require 'odata/model/configuration'
 require 'odata/model/attributes'
 require 'odata/model/persistence'
@@ -22,7 +22,7 @@ module OData
   module Model
     extend ActiveSupport::Concern
 
-    include OData::Model::ActiveModel
+    include OData::Model::ActiveModel if defined?(::ActiveModel)
     include OData::Model::Configuration
     include OData::Model::Attributes
     include OData::Model::Persistence

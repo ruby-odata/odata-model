@@ -1,3 +1,4 @@
+require 'active_model'
 require 'spec_helper'
 
 describe OData::Model do

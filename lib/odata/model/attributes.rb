@@ -90,7 +90,7 @@ module OData
           property_map[attribute_name] = literal_name
 
           # Ties into ActiveModel::Dirty
-          define_attribute_methods attribute_name
+          define_attribute_methods attribute_name if defined?(::ActiveModel)
 
           nil
         end
