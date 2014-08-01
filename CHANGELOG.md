@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.1
+
+* Added validation a property exists for an Entity when setting up its mapping.
+
 ## 0.4.0
 
 * Removed strict dependency on ActiveModel.

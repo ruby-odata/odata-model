@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = OData::Model::VERSION
   spec.authors       = ['James Thompson']
   spec.email         = %w{james@buypd.com}
-  spec.summary       = 'An ActiveModel mapping layer for the OData gem'
-  spec.description   = 'A mapping layer for the OData gem that integrates with ActiveModel'
+  spec.summary       = 'A basic mapping layer for the OData gem'
+  spec.description   = 'A mapping layer for the OData gem that can integrate with ActiveModel'
   spec.homepage      = 'https://github.com/ruby-odata/odata-model'
   spec.license       = 'MIT'
 
@@ -23,10 +23,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.9.0'
   spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'rspec', '~> 3.0.0'
-
   spec.add_development_dependency 'activemodel', '>= 3.0.0'
 
-  spec.add_dependency 'odata', '~> 0.5'
+  spec.add_dependency 'odata', '~> 0.5.0'
   spec.add_dependency 'activesupport', '>= 3.0.0'
 
   spec.add_dependency 'slop', '~> 3.6.0'
