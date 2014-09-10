@@ -1,5 +1,5 @@
 module OData
   module Model
-    VERSION = '0.5.3'
+    VERSION = '0.5.4'
   end
 end
