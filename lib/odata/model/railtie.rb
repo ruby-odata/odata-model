@@ -5,31 +5,23 @@ module OData
     class Railtie < ::Rails::Railtie
       attr_accessor :configuration
 
-      config.odata = ActiveSupport::OrderedOptions.new
-
       initializer('odata.load-config') do
-        parse_configuration
-        process_configuration
+        config_file = Rails.root.join('config', 'odata.yml').read
+
+        if config_file.file?
+          parsed_config = YAML.load(config_file)
+          self.configuration = parsed_config.with_indifferent_access
+
+          configuration[Rails.env].each do |service_name, service_details|
+            url = service_details[:url]
+            options = generate_options(service_name, service_details)
+            OData::Service.open(url, options)
+            validate_service_setup(service_name)
+          end
+        end
       end
 
       private
-
-      def parse_configuration
-        config_file = Rails.root.join('config', 'mongoid.yml')
-        if config_file.file?
-          parsed_config = YAML.load(config_file.read)
-          self.configuration = parsed_config.with_indifferent_access
-        end
-      end
-
-      def process_configuration
-        configuration[Rails.env].each do |service_name, service_details|
-          url = service_details[:url]
-          options = generate_options(service_name, service_details)
-          OData::Service.open(url, options)
-          validate_service_setup(service_name)
-        end
-      end
 
       def generate_options(service_name, service_details)
         options = { name: service_name }
