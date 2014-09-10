@@ -8,16 +8,14 @@ module OData
       initializer('odata.load-config') do
         config_file = Rails.root.join('config', 'odata.yml').read
 
-        if config_file.file?
-          parsed_config = YAML.load(config_file)
-          self.configuration = parsed_config.with_indifferent_access
+        parsed_config = YAML.load(config_file)
+        self.configuration = parsed_config.with_indifferent_access
 
-          configuration[Rails.env].each do |service_name, service_details|
-            url = service_details[:url]
-            options = generate_options(service_name, service_details)
-            OData::Service.open(url, options)
-            validate_service_setup(service_name)
-          end
+        configuration[Rails.env].each do |service_name, service_details|
+          url = service_details[:url]
+          options = generate_options(service_name, service_details)
+          OData::Service.open(url, options)
+          validate_service_setup(service_name)
         end
       end
 
