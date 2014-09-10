@@ -28,7 +28,7 @@ module OData
               username: service_details[:username],
               password: service_details[:password]
           }
-          options[:typhoeus][:auth_type] = service_details[:auth_type]
+          options[:typhoeus][:auth_type] = service_details[:auth_type].to_sym
         end
         options
       end
