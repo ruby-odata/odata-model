@@ -15,13 +15,13 @@ module OData
       private
 
       def parse_configuration(app)
-        config_file = File.open(File.join(Rails.root, 'config/odata.yml')).read
+        config_file = File.open(File.join(app.root, 'config/odata.yml')).read
         parsed_config = YAML.load(config_file)
         configuration = parsed_config.with_indifferent_access
       end
 
       def process_configuration(app)
-        configuration[Rails.env].each do |service_name, service_details|
+        configuration[app.env].each do |service_name, service_details|
           url = service_details[:url]
           options = generate_options(service_name, service_details)
           OData::Service.open(url, options)
