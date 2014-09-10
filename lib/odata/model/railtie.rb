@@ -21,7 +21,7 @@ module OData
       end
 
       def process_configuration(app)
-        configuration[app.env].each do |service_name, service_details|
+        configuration[Rails.env].each do |service_name, service_details|
           url = service_details[:url]
           options = generate_options(service_name, service_details)
           OData::Service.open(url, options)
