@@ -16,7 +16,8 @@ module OData
 
       def parse_configuration(app)
         config_file = File.open(File.join(Rails.root, 'config/odata.yml')).read
-        configuration = YAML.load(config_file).deep_symbolize_keys
+        parsed_config = YAML.load(config_file)
+        configuration = ActiveSupport::HashWithIndifferentAccess.new(parsed_config).deep_symbolize_keys
       end
 
       def process_configuration(app)
