@@ -7,20 +7,22 @@ module OData
 
       config.odata = ActiveSupport::OrderedOptions.new
 
-      initializer('odata_configuration') do |app|
-        parse_configuration(app)
-        process_configuration(app)
+      initializer('odata.load-config') do
+        parse_configuration
+        process_configuration
       end
 
       private
 
-      def parse_configuration(app)
-        config_file = File.open(File.join(app.root, 'config/odata.yml')).read
-        parsed_config = YAML.load(config_file)
-        configuration = parsed_config.with_indifferent_access
+      def parse_configuration
+        config_file = Rails.root.join('config', 'mongoid.yml')
+        if config_file.file?
+          parsed_config = YAML.load(config_file.read)
+          self.configuration = parsed_config.with_indifferent_access
+        end
       end
 
-      def process_configuration(app)
+      def process_configuration
         configuration[Rails.env].each do |service_name, service_details|
           url = service_details[:url]
           options = generate_options(service_name, service_details)
