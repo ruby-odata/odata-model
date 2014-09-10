@@ -24,7 +24,7 @@ module OData
       def generate_options(service_name, service_details)
         options = { name: service_name }
         if service_details[:username] && service_details[:password]
-          options[:typohoeus] = {
+          options[:typhoeus] = {
               username: service_details[:username],
               password: service_details[:password]
           }
