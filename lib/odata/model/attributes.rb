@@ -86,7 +86,7 @@ module OData
         # @param property_name [to_s]
         # @api private
         def validate_attribute(property_name)
-          valid_properties = odata_service.properties_for(odata_entity_set.type)
+          valid_properties = odata_service.properties_for_entity(odata_entity_set.type)
           unless valid_properties[property_name.to_s]
             raise ArgumentError, "property #{property_name} does not exist for #{odata_entity_set.type} entity"
           end
