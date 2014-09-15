@@ -11,7 +11,7 @@ module OData
       extend ::ActiveModel::Naming
       include ::ActiveModel::Validations
       include ::ActiveModel::Conversion
-      include ::ActiveModel::Dirty
+      #include ::ActiveModel::Dirty
 
       included do
         # ...

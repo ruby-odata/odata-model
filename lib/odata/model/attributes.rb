@@ -39,6 +39,7 @@ module OData
           validate_attribute(literal_name)
           register_attribute(attribute_name, literal_name, options)
           create_accessors(attribute_name)
+          #define_attribute_methods [attribute_name] if defined?(::ActiveModel)
 
           nil
         end
@@ -100,10 +101,6 @@ module OData
           attributes << attribute_name
           attribute_options[attribute_name] = options
           property_map[attribute_name] = literal_name
-
-          # Ties into ActiveModel::Dirty
-          define_attribute_methods attribute_name if defined?(::ActiveModel)
-
           nil
         end
 
@@ -117,9 +114,9 @@ module OData
             end
 
             define_method("#{attribute_name}=") do |value|
-              unless entity[property_map[attribute_name]] == value
-                send("#{attribute_name}_will_change!")
-              end
+              # unless entity[property_map[attribute_name]] == value
+              #   send("#{attribute_name}_will_change!") if defined?(::ActiveModel)
+              # end
 
               odata_entity[property_map[attribute_name]] = value
             end
