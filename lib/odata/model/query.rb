@@ -55,6 +55,7 @@ module OData
         # @return [OData::Model,nil]
         def [](primary_key_value)
           entity = odata_entity_set[primary_key_value]
+          return entity if entity.nil?
           model = self.new
           model.instance_variable_set(:@odata_entity, entity)
           model
