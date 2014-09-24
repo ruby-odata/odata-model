@@ -18,11 +18,18 @@ module OData
       end
 
       # Sets up a new criteria for filters for the given property name.
-      # @param property_name [Symbol]
+      # @param argument [Hash,to_sym]
       # @return [self]
       # @api private
-      def where(property_name)
-        @last_criteria = query[target.property_map[property_name]]
+      def where(argument)
+        if argument.is_a?(Hash)
+          argument.each do |property_name, value|
+            self.where(property_name.to_sym).is(eq: value)
+          end
+        else
+          @last_criteria = query[target.property_map[argument.to_sym]]
+        end
+
         self
       end
 

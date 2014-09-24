@@ -13,13 +13,28 @@ describe OData::Model::QueryProxy do
 
   it { expect(subject).to respond_to(:where) }
   describe '#where' do
-    let(:subject) { query_proxy.where(:name) }
+    context 'with a symbol' do
+      let(:subject) { query_proxy.where(:name) }
 
-    it { expect(subject).to be_a(OData::Model::QueryProxy) }
+      it { expect(subject).to be_a(OData::Model::QueryProxy) }
 
-    it 'sets up last criteria properly' do
-      expect(subject.last_criteria).to be_a(OData::Query::Criteria)
-      expect(subject.last_criteria.property).to eq(Product.property_map[:name])
+      it 'sets up last criteria properly' do
+        expect(subject.last_criteria).to be_a(OData::Query::Criteria)
+        expect(subject.last_criteria.property).to eq(Product.property_map[:name])
+      end
+    end
+
+    context 'with a hash' do
+      let(:subject) { query_proxy.where(name: 'Bread') }
+
+      it { expect(subject).to be_a(OData::Model::QueryProxy) }
+
+      it 'sets up last criteria properly' do
+        expect(subject.last_criteria).to be_a(OData::Query::Criteria)
+        expect(subject.last_criteria.property).to eq(Product.property_map[:name])
+        expect(subject.last_criteria.operator).to eq(:eq)
+        expect(subject.last_criteria.value).to eq('Bread')
+      end
     end
   end
 

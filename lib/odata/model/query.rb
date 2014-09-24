@@ -11,11 +11,11 @@ module OData
       # Methods mixed in at the class level.
       module ClassMethods
         # Starts a query chain with a filter for a given property's name.
-        # @param property_name [to_sym]
+        # @param property_name [Hash,to_sym]
         # @return [OData::Model::Query]
-        def where(property_name)
+        def where(arguments)
           query_proxy = OData::Model::QueryProxy.new(self)
-          query_proxy.where(property_name.to_sym)
+          query_proxy.where(arguments)
         end
 
         # Starts a query chain with a limit to entities returned.
