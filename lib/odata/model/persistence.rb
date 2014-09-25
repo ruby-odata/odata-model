@@ -10,6 +10,18 @@ module OData
         # ...
       end
 
+      # A simple initializer that just accepts a hash and sets any matching
+      # accessors with the supplied value
+      def initialize(attr_values = {})
+        attr_values.each do |attr_name, value|
+          begin
+            send("#{attr_name.to_sym}=", value)
+          rescue NoMethodError
+            next
+          end
+        end
+      end
+
       # Returns whether the current instance has been persisted.
       # @return [Boolean]
       def persisted?

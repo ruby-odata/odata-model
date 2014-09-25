@@ -10,6 +10,12 @@ module OData
 
       # Methods mixed in at the class level.
       module ClassMethods
+        # Gives you a handle to get at everything as an Enumerable
+        # @return [OData::Model::Query]
+        def all
+          OData::Model::QueryProxy.new(self)
+        end
+
         # Starts a query chain with a filter for a given property's name.
         # @param property_name [Hash,to_sym]
         # @return [OData::Model::Query]
