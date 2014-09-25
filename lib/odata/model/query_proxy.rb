@@ -24,10 +24,14 @@ module OData
       def where(argument)
         if argument.is_a?(Hash)
           argument.each do |property_name, value|
-            self.where(property_name.to_sym).is(eq: value)
+            self.where(property_name).is(eq: value)
           end
         else
-          @last_criteria = query[target.property_map[argument.to_sym]]
+          if argument.is_a?(String)
+            @last_criteria = query[argument]
+          else
+            @last_criteria = query[target.property_map[argument.to_sym]]
+          end
         end
 
         self
