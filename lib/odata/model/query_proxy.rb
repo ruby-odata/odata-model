@@ -82,6 +82,12 @@ module OData
         self
       end
 
+      # Provides a faster implementation of Enumerable#count
+      # @return [Integer]
+      def count
+        query.count
+      end
+
       # Executes the query and returns each instance of the target model in
       # turn.
       def each(&block)
