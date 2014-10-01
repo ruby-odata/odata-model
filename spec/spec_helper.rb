@@ -19,6 +19,8 @@ I18n.enforce_available_locales = false
 OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
 
 require 'example_models/bare_model'
+require 'example_models/odatademo_category'
+require 'example_models/odatademo_supplier'
 require 'example_models/odatademo_product'
 require 'example_models/odatademo_limited_product'
 require 'example_models/odatademo_person'

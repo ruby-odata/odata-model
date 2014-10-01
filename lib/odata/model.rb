@@ -8,6 +8,7 @@ require 'odata/model/version'
 require 'odata/model/active_model' if defined?(::ActiveModel)
 require 'odata/model/configuration'
 require 'odata/model/attributes'
+require 'odata/model/associations'
 require 'odata/model/persistence'
 require 'odata/model/query'
 require 'odata/model/query_proxy'
@@ -25,6 +26,7 @@ module OData
     include OData::Model::ActiveModel if defined?(::ActiveModel)
     include OData::Model::Configuration
     include OData::Model::Attributes
+    include OData::Model::Associations
     include OData::Model::Persistence
     include OData::Model::Query
   end

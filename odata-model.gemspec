@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0.0'
   spec.add_development_dependency 'activemodel', '>= 3.0.0'
 
-  spec.add_dependency 'odata', '~> 0.5.0'
+  spec.add_dependency 'odata', '~> 0.6.0'
   spec.add_dependency 'activesupport', '>= 3.0.0'
 
   spec.add_dependency 'slop', '~> 3.6.0'

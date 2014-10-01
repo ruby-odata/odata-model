@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.6.0
+
+* Updated to work with OData gem version 0.6.0
+* Integrated support for OData gem's support for associations
+
+## 0.5.x
+
+* Lots of changes
+
 ## 0.4.1
 
 * Added validation a property exists for an Entity when setting up its mapping.
