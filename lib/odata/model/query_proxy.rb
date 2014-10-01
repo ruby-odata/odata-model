@@ -42,10 +42,10 @@ module OData
       # @return [self]
       def is(arguments)
         raise ArgumentError 'can only accept Hash argument' unless arguments.is_a?(Hash)
-        property_name = last_criteria.property
+        property = last_criteria.property
         arguments.each do |operator, value|
-          @last_criteria = query[property_name].send(operator.to_sym, value)
-          query.where(@last_criteria)
+          @last_criteria = query[property.name].send(operator.to_sym, value)
+          query.where(last_criteria)
         end
         self
       end

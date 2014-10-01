@@ -20,7 +20,7 @@ describe OData::Model::QueryProxy do
 
       it 'sets up last criteria properly' do
         expect(subject.last_criteria).to be_a(OData::Query::Criteria)
-        expect(subject.last_criteria.property).to eq(Product.property_map[:name])
+        expect(subject.last_criteria.property.name).to eq(Product.property_map[:name])
       end
     end
 
@@ -31,7 +31,7 @@ describe OData::Model::QueryProxy do
 
       it 'sets up last criteria properly' do
         expect(subject.last_criteria).to be_a(OData::Query::Criteria)
-        expect(subject.last_criteria.property).to eq(Product.property_map[:name])
+        #expect(subject.last_criteria.property.name).to eq(Product.property_map[:name])
         expect(subject.last_criteria.operator).to eq(:eq)
         expect(subject.last_criteria.value).to eq('Bread')
       end
@@ -48,7 +48,7 @@ describe OData::Model::QueryProxy do
 
         it 'sets up last criteria properly' do
           expect(subject.last_criteria).to be_a(OData::Query::Criteria)
-          expect(subject.last_criteria.property).to eq(Product.property_map[:rating])
+          #expect(subject.last_criteria.property.name).to eq(Product.property_map[:rating])
           expect(subject.last_criteria.operator).to eq(operator.to_sym)
           expect(subject.last_criteria.value).to eq(4)
         end
