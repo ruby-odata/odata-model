@@ -45,15 +45,16 @@ module OData
           class_eval do
             define_method(accessor_name) do
               association_entities = odata_entity.associations[association_name]
+              klass = self.class.odata_associations[association_name][:class_name]
+              model_klass = klass.is_a?(Class) ? klass : klass.to_s.constantize
+              model = model_klass.new
               if association_entities.is_a?(Enumerable)
                 association_entities.collect do |entity|
-                  model = self.class.odata_associations[association_name][:class_name].new
                   model.instance_variable_set(:@odata_entity, entity)
                   model
                 end
               else
                 return nil if association_entities.nil?
-                model = self.class.odata_associations[association_name][:class_name].new
                 model.instance_variable_set(:@odata_entity, association_entities)
                 model
               end

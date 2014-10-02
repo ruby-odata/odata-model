@@ -12,5 +12,5 @@ class Product
   property 'DiscontinuedDate'
 
   associated_with 'Categories', class_name: Category, as: :categories
-  associated_with 'Supplier', class_name: Supplier, as: :supplier
+  associated_with 'Supplier', class_name: 'Supplier', as: :supplier
 end
