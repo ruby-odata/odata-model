@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.1
+
+* Added support for declaring association class_name as a string.
+
 ## 0.6.0
 
 * Updated to work with OData gem version 0.6.0
