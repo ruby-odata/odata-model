@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.2
+
+* Fixed issue in OData::Model::Persistence#save not calling underlying OData
+  service correctly.
+
 ## 0.6.1
 
 * Added support for declaring association class_name as a string.
