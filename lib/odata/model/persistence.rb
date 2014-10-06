@@ -35,7 +35,7 @@ module OData
 
       # Save the current model.
       def save
-        odata_service[odata_entity_set_name] << odata_entity
+        self.class.odata_service[odata_entity_set_name] << odata_entity
         instance_variable_set(:@persisted, true)
         changes_applied
       end
@@ -43,7 +43,7 @@ module OData
       # Reload the model from OData
       def reload!
         # TODO reload OData entity
-        reset_changes
+        #reset_changes
       end
 
       # Methods mixed in at the class level.
