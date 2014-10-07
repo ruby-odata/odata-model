@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.3
+
+* Fixed issued in recording persistence in OData::Model::Persistence#save.
+
 ## 0.6.2
 
 * Fixed issue in OData::Model::Persistence#save not calling underlying OData
