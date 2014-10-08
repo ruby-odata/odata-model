@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.4
+
+* Fixed bug in OData::Model::Associations.create_association_accessors.
+
 ## 0.6.3
 
 * Fixed issued in recording persistence in OData::Model::Persistence#save.
