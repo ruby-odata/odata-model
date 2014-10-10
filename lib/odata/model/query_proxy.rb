@@ -44,7 +44,11 @@ module OData
         raise ArgumentError 'can only accept Hash argument' unless arguments.is_a?(Hash)
         property = last_criteria.property
         arguments.each do |operator, value|
-          @last_criteria = query[property.name].send(operator.to_sym, value)
+          @last_criteria = if property.respond_to?(:name)
+            query[property.name].send(operator.to_sym, value)
+          else
+            query[property].send(operator.to_sym, value)
+          end
           query.where(last_criteria)
         end
         self

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.5
+
+* Updated implementation of OData::Model::QueryProxy#is.
+
 ## 0.6.4
 
 * Fixed bug in OData::Model::Associations.create_association_accessors.
