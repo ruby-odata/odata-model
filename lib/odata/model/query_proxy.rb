@@ -92,6 +92,12 @@ module OData
         query.count
       end
 
+      # Indicates whether the query will return any results
+      # @return [Boolean]
+      def empty?
+        query.count > 0
+      end
+
       # Executes the query and returns each instance of the target model in
       # turn.
       def each(&block)

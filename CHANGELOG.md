@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.6
+
+* Added OData::Model::QueryProxy#empty?
+
 ## 0.6.5
 
 * Updated implementation of OData::Model::QueryProxy#is.
