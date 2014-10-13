@@ -11,6 +11,17 @@ module OData
         # ...
       end
 
+      # Updates all the attributes on a model instance based on the passed in
+      # Hash.
+      # @params [Hash] hash of attributes to update
+      # @return [self]
+      def update_attributes(attribute_hash)
+        attribute_hash.each do |key, value|
+          self.send(:"#{key}=", value) if self.respond_to?(:"#{key}=")
+        end
+        self
+      end
+
       # Returns an array of registered attributes.
       # @return [Array]
       # @api private
@@ -40,7 +51,6 @@ module OData
           register_attribute(attribute_name, literal_name, options)
           create_accessors(attribute_name)
           #define_attribute_methods [attribute_name] if defined?(::ActiveModel)
-
           nil
         end
 

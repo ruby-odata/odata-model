@@ -66,6 +66,7 @@ module OData
           model.instance_variable_set(:@odata_entity, entity)
           model
         end
+        alias_method :find, :[]
       end
     end
   end

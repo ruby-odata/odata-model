@@ -2,10 +2,19 @@ require 'spec_helper'
 
 describe OData::Model do
   describe 'query interface' do
-    it { expect(Product).to respond_to(:[]) }
     describe 'Product[]' do
+      it { expect(Product).to respond_to(:[]) }
+
       it 'finds a model instance' do
         expect(Product[0]).to be_a(Product)
+      end
+    end
+
+    describe 'Product.find' do
+      it { expect(Product).to respond_to(:find) }
+
+      it 'finds a model instance' do
+        expect(Product.find(0)).to be_a(Product)
       end
     end
 

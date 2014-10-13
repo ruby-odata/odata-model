@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.7
+
+* Added implementation of OData::Model#update_attributes.
+* Added OData::Model.find implementation.
+
 ## 0.6.6
 
 * Added OData::Model::QueryProxy#empty?
