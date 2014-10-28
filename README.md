@@ -1,4 +1,5 @@
 # OData::Model
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ruby-odata/odata-model?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build Status](https://travis-ci.org/ruby-odata/odata-model.svg?branch=master)](https://travis-ci.org/ruby-odata/odata-model)
 [![Code Climate](https://codeclimate.com/github/ruby-odata/odata-model.png)](https://codeclimate.com/github/ruby-odata/odata-model)
